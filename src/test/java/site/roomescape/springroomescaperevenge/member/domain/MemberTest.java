@@ -27,6 +27,7 @@ class MemberTest {
         // Then
         assertThat(member).isNotNull();
         assertSoftly(softly -> {
+            softly.assertThat(member.getId()).isNull();
             softly.assertThat(member.getEmail().value()).isEqualTo(email);
             softly.assertThat(member.getPassword().value()).isEqualTo(password);
             softly.assertThat(member.getName().value()).isEqualTo(name);
