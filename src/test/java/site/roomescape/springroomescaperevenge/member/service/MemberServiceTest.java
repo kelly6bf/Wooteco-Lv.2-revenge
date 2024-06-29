@@ -3,6 +3,7 @@ package site.roomescape.springroomescaperevenge.member.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import site.roomescape.springroomescaperevenge.common.exception.ResourceNotFoundException;
 import site.roomescape.springroomescaperevenge.member.domain.Member;
 import site.roomescape.springroomescaperevenge.member.domain.MemberCreate;
 import site.roomescape.springroomescaperevenge.member.domain.MemberEmail;
@@ -13,6 +14,8 @@ import site.roomescape.springroomescaperevenge.member.domain.MemberUpdate;
 import site.roomescape.springroomescaperevenge.mock.FakeMemberRepository;
 import site.roomescape.springroomescaperevenge.mock.TestPasswordEncoder;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 @DisplayName("회원 서비스 테스트")
@@ -109,8 +112,27 @@ class MemberServiceTest {
 
         // Then
         final Member savedMember = memberRepository.getById(1L);
-        assertSoftly(softly -> {
-            softly.assertThat(passwordEncoder.matches(newPassword.value(), savedMember.getPassword().value())).isTrue();
-        });
+        assertThat(passwordEncoder.matches(newPassword.value(), savedMember.getPassword().value())).isTrue();
+
+    }
+
+    @DisplayName("회원을 삭제한다.")
+    @Test
+    void deleteTest() {
+        // Given
+        final Member member = Member.builder()
+                .email(new MemberEmail("kelly6bf@gmail.com"))
+                .password(new MemberPassword("kellyPw1234!"))
+                .name(new MemberName("kelly"))
+                .role(MemberRole.USER)
+                .build();
+        memberRepository.save(member);
+
+        // When
+        memberService.delete(1L);
+
+        // Then
+        assertThatThrownBy(() -> memberRepository.getById(1L))
+                .isInstanceOf(ResourceNotFoundException.class);
     }
 }

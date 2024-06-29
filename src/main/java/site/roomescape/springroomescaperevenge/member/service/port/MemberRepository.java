@@ -11,4 +11,6 @@ public interface MemberRepository {
     Member getById(Long memberId);
 
     Member save(Member member);
+
+    void deleteById(Long memberId);
 }

@@ -44,4 +44,9 @@ public class FakeMemberRepository implements MemberRepository {
             return member;
         }
     }
+
+    @Override
+    public void deleteById(final Long memberId) {
+        data.removeIf(item -> Objects.equals(item.getId(), memberId));
+    }
 }
