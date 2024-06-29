@@ -8,5 +8,7 @@ public interface MemberRepository {
 
     List<Member> getAll();
 
+    Member getById(Long memberId);
+
     Member save(Member member);
 }

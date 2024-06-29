@@ -11,6 +11,6 @@ public class TestPasswordEncoder implements PasswordEncoder {
 
     @Override
     public boolean matches(final String password, final String encodedPassword) {
-        return false;
+        return encodedPassword.equals("encoded-header " + password + "encoded-footer");
     }
 }

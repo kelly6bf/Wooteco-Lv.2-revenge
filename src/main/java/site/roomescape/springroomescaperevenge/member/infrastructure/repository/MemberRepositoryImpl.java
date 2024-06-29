@@ -2,6 +2,7 @@ package site.roomescape.springroomescaperevenge.member.infrastructure.repository
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import site.roomescape.springroomescaperevenge.common.exception.ResourceNotFoundException;
 import site.roomescape.springroomescaperevenge.member.domain.Member;
 import site.roomescape.springroomescaperevenge.member.service.port.MemberRepository;
 
@@ -19,6 +20,13 @@ public class MemberRepositoryImpl implements MemberRepository {
                 .stream()
                 .map(MemberEntity::toModel)
                 .toList();
+    }
+
+    @Override
+    public Member getById(final Long memberId) {
+        return memberJpaRepository.findById(memberId)
+                .orElseThrow(() -> new ResourceNotFoundException("Member", memberId))
+                .toModel();
     }
 
     @Override
