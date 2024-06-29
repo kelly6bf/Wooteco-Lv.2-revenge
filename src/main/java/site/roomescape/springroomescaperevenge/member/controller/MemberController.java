@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import site.roomescape.springroomescaperevenge.member.controller.request.ChangeMemberPasswordRequest;
 import site.roomescape.springroomescaperevenge.member.controller.request.CreateMemberRequest;
@@ -21,12 +22,13 @@ import site.roomescape.springroomescaperevenge.member.service.MemberService;
 import java.util.List;
 
 @RequiredArgsConstructor
+@RequestMapping("/api/members")
 @RestController
 public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping("/members")
+    @GetMapping
     public List<MemberResponse> getMembers() {
         return memberService.getAll()
                 .stream()
@@ -34,7 +36,7 @@ public class MemberController {
                 .toList();
     }
 
-    @PostMapping("/members")
+    @PostMapping
     public ResponseEntity<MemberResponse> create(@RequestBody final CreateMemberRequest request) {
         final Member member = memberService.create(request.toMemberCreate());
         final MemberResponse response = new MemberResponse(member);
@@ -42,7 +44,7 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/members/{memberId}")
+    @PatchMapping("/{memberId}")
     public ResponseEntity<MemberResponse> update(
             @PathVariable("memberId") final Long memberId,
             @RequestBody final UpdateMemberRequest request
@@ -53,7 +55,7 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/members/{memberId}/password")
+    @PutMapping("/{memberId}/password")
     public ResponseEntity<String> changePassword(
             @PathVariable("memberId") final Long memberId,
             @RequestBody final ChangeMemberPasswordRequest request
@@ -67,7 +69,7 @@ public class MemberController {
         return ResponseEntity.ok("비밀번호 변경되었다.");
     }
 
-    @DeleteMapping("/members/{memberId}")
+    @DeleteMapping("/{memberId}")
     public void delete(@PathVariable("memberId") final Long memberId) {
         memberService.delete(memberId);
     }
