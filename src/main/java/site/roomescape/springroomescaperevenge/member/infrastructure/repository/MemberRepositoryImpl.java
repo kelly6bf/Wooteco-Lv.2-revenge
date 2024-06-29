@@ -34,4 +34,9 @@ public class MemberRepositoryImpl implements MemberRepository {
         final MemberEntity memberEntity = new MemberEntity(member);
         return memberJpaRepository.save(memberEntity).toModel();
     }
+
+    @Override
+    public void deleteById(final Long memberId) {
+        memberJpaRepository.deleteById(memberId);
+    }
 }

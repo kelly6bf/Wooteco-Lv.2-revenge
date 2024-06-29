@@ -2,6 +2,7 @@ package site.roomescape.springroomescaperevenge.member.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,5 +65,10 @@ public class MemberController {
         );
 
         return ResponseEntity.ok("비밀번호 변경되었다.");
+    }
+
+    @DeleteMapping("/members/{memberId}")
+    public void delete(@PathVariable("memberId") final Long memberId) {
+        memberService.delete(memberId);
     }
 }

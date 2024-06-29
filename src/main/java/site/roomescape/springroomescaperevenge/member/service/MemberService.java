@@ -39,4 +39,8 @@ public class MemberService {
         final Member updatedMember = member.changePassword(oldPassword, newPassword, passwordEncoder);
         memberRepository.save(updatedMember);
     }
+
+    public void delete(final Long memberId) {
+        memberRepository.deleteById(memberId);
+    }
 }
