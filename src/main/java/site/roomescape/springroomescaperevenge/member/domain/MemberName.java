@@ -25,4 +25,8 @@ public record MemberName(String value) {
             throw new InvalidMemberNameLengthException("유효하지 않은 회원 이름 길이입니다. - " + name);
         }
     }
+
+    public boolean isEmpty() {
+        return this.value == null || this.value.isBlank();
+    }
 }
