@@ -10,17 +10,28 @@ public class Member {
     private final MemberEmail email;
     private final MemberPassword password;
     private final MemberName name;
+    private final MemberRole role;
 
     @Builder
     public Member(
             final Long id,
-            final String email,
-            final String password,
-            final String name
+            final MemberEmail email,
+            final MemberPassword password,
+            final MemberName name,
+            final MemberRole role
     ) {
+        validateMemberRoleNotNull(role);
+
+        this.email = email;
         this.id = id;
-        this.email = new MemberEmail(email);
-        this.password = new MemberPassword(password);
-        this.name = new MemberName(name);
+        this.password = password;
+        this.name = name;
+        this.role = role;
+    }
+
+    private void validateMemberRoleNotNull(final MemberRole role) {
+        if (role == null) {
+            throw new IllegalArgumentException("회원 권한 값은 NULL이 입력될 수 없습니다.");
+        }
     }
 }
